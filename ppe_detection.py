@@ -7,7 +7,7 @@ import math
 # cap = cv2.VideoCapture(0) # for webcam
 # cap.set(3, 1280)
 # cap.set(4, 720)
-cap = cv2.VideoCapture("videos/ppe-1.mp4") # for video
+cap = cv2.VideoCapture("videos/ppe-2.mp4") # for video
 if not cap.isOpened():
     print("Error: Could not open video file.")
 
@@ -20,8 +20,6 @@ classNames = ['Hardhat', 'Mask', 'NO-Hardhat', 'NO-Mask', 'NO-Safety Vest', 'Per
 # print(torch.cuda.is_available())
 # print(torch.cuda.device_count())
 
-varColor = (0, 0, 255)
-
 while True:
     success, img = cap.read()
     results = model(img, stream=True)
@@ -31,7 +29,6 @@ while True:
             # Bounding Box
             x1,y1,x2,y2 = box.xyxy[0]
             x1,y1,x2,y2 = int(x1),int(y1),int(x2),int(y2)
-            cv2.rectangle(img, (x1,y1), (x2,y2), varColor, 3)
 
             # w, h = x2-x1,y2-y1
             # bbox = int(x1),int(y1),int(w),int(h)
@@ -43,9 +40,15 @@ while True:
             # Class Name
             cls = int(box.cls[0])
             currentClass = classNames[cls]
-            if currentClass == 'Hardhat':
+            if currentClass == 'Hardhat' or currentClass == 'Safety Vest' or currentClass == 'Mask':
                 varColor = (0, 255 ,0)
-            cvzone.putTextRect(img, f'{classNames[int(cls)]} {conf}', (max(13,x1+13),max(30,y1-15)), scale=2, thickness=3, offset=5, colorB=varColor, colorR=varColor)
+            elif currentClass == 'Person' or currentClass == 'machinery' or currentClass == 'vehicle' or currentClass == 'Safety Cone':
+                varColor = (0, 255, 255)
+            else:
+                varColor = (0, 0, 255)
+            cvzone.putTextRect(img, f'{classNames[int(cls)]} {conf}', (max(13,x1+13),max(30,y1-15)), scale=1, thickness=2, offset=5, colorB=varColor, colorR=varColor)
+            cv2.rectangle(img, (x1,y1), (x2,y2), varColor, 3)
+
 
 
     cv2.imshow("Image", img)
