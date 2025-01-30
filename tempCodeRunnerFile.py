@@ -1,1 +1,3 @@
-x1,y1,x2,y2 = int(x1),int(y1),int(x2),int(y2)
+# cap = cv2.VideoCapture("videos/ppe-3.mp4") # for video
+# if not cap.isOpened():
+#     print("Error: Could not open video file.")

@@ -7,7 +7,7 @@ import math
 # cap = cv2.VideoCapture(0) # for webcam
 # cap.set(3, 1280)
 # cap.set(4, 720)
-cap = cv2.VideoCapture("videos/ppe-2.mp4") # for video
+cap = cv2.VideoCapture("videos/ppe-3.mp4") # for video
 if not cap.isOpened():
     print("Error: Could not open video file.")
 
@@ -40,14 +40,15 @@ while True:
             # Class Name
             cls = int(box.cls[0])
             currentClass = classNames[cls]
-            if currentClass == 'Hardhat' or currentClass == 'Safety Vest' or currentClass == 'Mask':
-                varColor = (0, 255 ,0)
-            elif currentClass == 'Person' or currentClass == 'machinery' or currentClass == 'vehicle' or currentClass == 'Safety Cone':
-                varColor = (0, 255, 255)
-            else:
-                varColor = (0, 0, 255)
-            cvzone.putTextRect(img, f'{classNames[int(cls)]} {conf}', (max(13,x1+13),max(30,y1-15)), scale=1, thickness=2, offset=5, colorB=varColor, colorR=varColor)
-            cv2.rectangle(img, (x1,y1), (x2,y2), varColor, 3)
+            if conf > 0.5:
+                if currentClass == 'Hardhat' or currentClass == 'Safety Vest' or currentClass == 'Mask':
+                    varColor = (0, 255 ,0)
+                elif currentClass == 'Person' or currentClass == 'machinery' or currentClass == 'vehicle' or currentClass == 'Safety Cone':
+                    varColor = (0, 255, 255)
+                else:
+                    varColor = (0, 0, 255)
+                cvzone.putTextRect(img, f'{classNames[int(cls)]} {conf}', (max(13,x1+13),max(30,y1-15)), scale=1, thickness=2, offset=5, colorB=varColor, colorR=varColor)
+                cv2.rectangle(img, (x1,y1), (x2,y2), varColor, 3)
 
 
 
