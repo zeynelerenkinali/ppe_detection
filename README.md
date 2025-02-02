@@ -39,8 +39,9 @@ A lightweight PPE (Personal Protective Equipment) detection system using YOLOv8.
   model.train(data="data.yaml", epochs=50, imgsz=640)
 ---
 
-## License  
-MIT License. See [LICENSE](LICENSE).  
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
 
